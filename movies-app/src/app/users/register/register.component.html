@@ -1,0 +1,42 @@
+<div class="form-group" style="margin: 10px;">
+  <h3>Registration Page</h3>
+  <form [formGroup]="registrationForm">
+    <div class="form-group">
+      <label>Firstname</label>
+      <input formControlName="firstName" class="form-control" type="text">
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+        <small class="text text-danger" *ngIf="firstName.errors.required">Firstname is mandatory</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Lastname</label>
+      <input formControlName="lastName" class="form-control" type="text">
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+        <small class="text text-danger" *ngIf="lastName.errors.required">Lastname is mandatory</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Username</label>
+      <input formControlName="username" class="form-control" type="text">
+      <div *ngIf="username.invalid && (username.dirty || username.touched)">
+        <small class="text text-danger" *ngIf="username.errors.required">Username is mandatory</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input formControlName="password" class="form-control" type="password">
+      <div *ngIf="password.invalid && (password.dirty || password.touched)">
+        <small class="text text-danger" *ngIf="password.errors.required">Password is mandatory</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Re enter Password</label>
+      <input formControlName="repassword" class="form-control" type="password">
+      <div *ngIf="repassword.invalid && (repassword.dirty || repassword.touched)">
+        <small class="text text-danger" *ngIf="repassword.errors.required">Password is mandatory</small>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit" [disabled]="!registrationForm.valid" (click)="submitData()">Register</button>
+  </form>
+</div>
+
