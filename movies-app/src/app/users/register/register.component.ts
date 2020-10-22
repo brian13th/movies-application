@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/models/user';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -7,13 +10,31 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  constructor() { }
+  user;
+  constructor(private auth:AuthService) { }
 
   ngOnInit(): void {
+    this.auth.getUser({
+      "username": "brian13",
+      "password": "brian13"
+    }).subscribe(data => {
+      console.log(data);
+      this.user = data
+    })
   }
   submitData(){
-    console.log(this.registrationForm.value)
+    this.auth.createUser(this.userToSend(this.userFromRegistrationForm)).subscribe()
+  }
+
+
+
+  userToSend(user){
+    return {
+      "firstname": user.firstName,
+      "lastname": user.lastName,
+      "username": user.username,
+      "password": user.password
+    }
   }
 
   registrationForm = new FormGroup({
@@ -41,4 +62,7 @@ export class RegisterComponent implements OnInit {
     return this.registrationForm.get('repassword');
   }
 
+  get userFromRegistrationForm() {
+    return this.registrationForm.value;
+  }
 }
