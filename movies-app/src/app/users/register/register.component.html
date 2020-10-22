@@ -36,8 +36,10 @@
         <small class="text text-danger" *ngIf="repassword.errors.required">Password is mandatory</small>
       </div>
     </div>
-    <button class="btn btn-primary" type="submit" [disabled]="!registrationForm.valid" (click)="submitData()">Register</button>
+    <button class="btn btn-primary" type="submit" [disabled]="!registrationForm.valid"
+      (click)="submitData()">Register</button>
+    <small class="text" style="margin: 0px 10px 0px 5px;">Already registered? Try to
+      <button type="button" class="btn btn-secondary btn-sm" routerLink="/login">Login</button> now!
+    </small>
   </form>
 </div>
-
-{{user}}

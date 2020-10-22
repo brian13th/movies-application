@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,25 +11,24 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  user;
-  constructor(private auth:AuthService) { }
 
-  ngOnInit(): void {
-    this.auth.getUser({
-      "username": "brian13",
-      "password": "brian13"
-    }).subscribe(data => {
-      console.log(data);
-      this.user = data
-    })
+  constructor(private auth: AuthService, private router: Router) { }
+
+  ngOnInit(): void {}
+
+  submitData() {
+    this.auth.createUser(this.userToSend(this.userFromRegistrationForm)).subscribe(
+      (res) => {
+        if (res) {
+          this.router.navigate(['login']);
+        }
+      }
+    )
   }
-  submitData(){
-    this.auth.createUser(this.userToSend(this.userFromRegistrationForm)).subscribe()
-  }
 
 
 
-  userToSend(user){
+  userToSend(user) {
     return {
       "firstname": user.firstName,
       "lastname": user.lastName,
