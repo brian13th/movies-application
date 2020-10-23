@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -12,51 +13,48 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
 
-  currentUser: User;
+  currentUser: Observable<User>;
   token: string;
 
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem('jwt');
-    this.auth.getUser(this.token).subscribe((res)=> this.currentUser = res)
+    this.currentUser = this.auth.getUser(this.token).pipe(
+      tap((userResponce)=> {
+        this.updateForm.patchValue(userResponce)})
+    )
   }
 
   submitData() {
-    this.auth.createUser(this.userToSend(this.userFromRegistrationForm)).subscribe(
-      (res) => {
-        if (res) {
-          this.router.navigate(['login']);
-        }
-      }
-    )
+    console.log(this.userToSend(this.updateForm.value))
+    this.auth.putUser(this.userToSend(this.updateForm.value), this.token).subscribe(data=> console.log(data));
   }
 
 
 
   userToSend(user) {
     return {
-      "firstname": user.firstName,
-      "lastname": user.lastName,
+      "firstname": user.firstname,
+      "lastname": user.lastname,
       "username": user.username,
       "password": user.password
     }
   }
 
   updateForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    firstname: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     repassword: new FormControl('', [Validators.required]),
   })
 
-  get firstName() {
-    // return this.updateForm.get('firstName');
-    return this.updateForm ? this.updateForm.get('firstName') : null;
+  get firstname() {
+    return this.updateForm ? this.updateForm.get('firstname') : null;
   }
-  get lastName() {
-    return this.updateForm.get('lastName');
+  get lastname() {
+    return this.updateForm.get('lastname');
   }
   get username() {
     return this.updateForm.get('username');

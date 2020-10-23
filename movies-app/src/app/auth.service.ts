@@ -12,6 +12,7 @@ export class AuthService {
   private urlUsers: string = 'http://localhost:4242/users';
   private urlSignIn: string = 'http://localhost:4242/users/signin';
   private urlGetUser: string = 'http://localhost:4242/users/details';
+  private urlPutUser: string = 'http://localhost:4242/users/';
 
   constructor(private http: HttpClient) { }
 
@@ -25,5 +26,9 @@ export class AuthService {
 
   getUser(token: string){
     return this.http.get<any>(this.urlGetUser, {headers: {"token": `${token}`}});
+  }
+
+  putUser(user, token: string){
+    return this.http.put<any>(this.urlPutUser,user,{headers: {"token": `${token}` }});
   }
 }
