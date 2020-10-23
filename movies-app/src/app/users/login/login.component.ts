@@ -17,14 +17,15 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   submitData() {
-    this.auth.getUser(this.userToSend(this.signInForm.value)).subscribe(
+    this.auth.loginUser(this.userToSend(this.signInForm.value)).subscribe(
       (res) => {
         if (res) {
-          console.log(typeof res.jwt)
           if (this.checkBox.value['rememberMe']){
-            localStorage.setItem('jwt', res.jwt)
+            localStorage.setItem('jwt', res.jwt);
+          } else {
+            sessionStorage.setItem('jwt', res.jwt);
           }
-          this.router.navigate(['register']);
+          this.router.navigate(['profile']);
         }
       }
     )
