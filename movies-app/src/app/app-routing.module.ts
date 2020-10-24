@@ -9,8 +9,8 @@ import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'profile', pathMatch: 'full'},
-  {path:'register', component:RegisterComponent, canActivate: [AuthGuard]},
-  {path:'login', component:LoginComponent, canActivate: [AuthGuard]},
+  {path:'register', component:RegisterComponent},
+  {path:'login', component:LoginComponent},
   {path:'profile', component:ProfileComponent, canActivate: [AuthGuard]},
 ]
 
