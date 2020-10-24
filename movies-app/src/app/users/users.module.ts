@@ -5,11 +5,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
 
 
 
 @NgModule({
-  declarations: [RegisterComponent, LoginComponent, ProfileComponent],
+  declarations: [RegisterComponent, LoginComponent, ProfileComponent, HomeComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

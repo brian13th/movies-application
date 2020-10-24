@@ -7,9 +7,10 @@ import { ProfileComponent } from './users/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AppComponent } from './app.component';
 import { LoginGuard } from './guards/login.guard';
+import { HomeComponent } from './users/home/home.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'profile', pathMatch: 'full'},
+  {path: '', component:HomeComponent, canActivate: [AuthGuard]},
   {path:'register', component:RegisterComponent, canActivate: [LoginGuard]},
   {path:'login', component:LoginComponent, canActivate: [LoginGuard]},
   {path:'profile', component:ProfileComponent, canActivate: [AuthGuard]},

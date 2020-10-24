@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('jwt', res.jwt);
             sessionStorage.setItem('username', res.user.username);
           }
-          this.router.navigate(['profile']);
+          this.router.navigate(['']);
         }
       }
     )
