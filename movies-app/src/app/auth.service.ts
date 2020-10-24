@@ -16,6 +16,14 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  get isLoggedIn(){
+    if (sessionStorage.getItem('jwt')){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   createUser(user){
     return this.http.post<any>(this.urlUsers,user);
   }

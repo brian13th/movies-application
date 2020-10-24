@@ -9,14 +9,15 @@ import { AuthService } from '../auth.service';
 export class AuthGuard implements CanActivate {
   jwt: string;
 
-  constructor(private http: AuthService){
+  constructor(private auth: AuthService){
 
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if(sessionStorage.getItem('jwt')){
+    if(this.auth.isLoggedIn){
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
 }
