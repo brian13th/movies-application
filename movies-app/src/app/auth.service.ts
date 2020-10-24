@@ -31,4 +31,8 @@ export class AuthService {
   putUser(user, token: string){
     return this.http.put<any>(this.urlPutUser,user,{headers: {"token": `${token}` }});
   }
+
+  getUserAuth(token: string){
+    return this.http.get<any>(this.urlGetUser, {headers: {"token": `${token}`, observe: 'body'}});
+  }
 }

@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
         if (res) {
           if (this.checkBox.value['rememberMe']){
             localStorage.setItem('jwt', res.jwt);
+            sessionStorage.setItem('jwt', res.jwt);
           } else {
             sessionStorage.setItem('jwt', res.jwt);
           }
