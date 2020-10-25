@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
     this.auth.createUser(this.userToSend(this.userFromRegistrationForm)).subscribe(
       (res) => {
         if (res) {
-          this.router.navigate(['login']);
+          this.router.navigate(['']);
         }
       }
     )

@@ -27,8 +27,14 @@ export class ProfileComponent implements OnInit {
   }
 
   submitData() {
-    console.log(this.userToSend(this.updateForm.value))
-    this.auth.putUser(this.userToSend(this.updateForm.value), this.token).subscribe(data=> console.log(data));
+    this.auth.putUser(this.userToSend(this.updateForm.value), this.token)
+    .subscribe(
+      (data) => {
+        if(localStorage.getItem('username')){
+          localStorage.setItem('username', data['username'])
+        }
+        sessionStorage.setItem('username', data['username'])
+      });
   }
 
 
@@ -47,7 +53,6 @@ export class ProfileComponent implements OnInit {
     lastname: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
-    repassword: new FormControl('', [Validators.required]),
   })
 
   get firstname() {
@@ -61,10 +66,6 @@ export class ProfileComponent implements OnInit {
   }
   get password() {
     return this.updateForm.get('password');
-  }
-
-  get repassword() {
-    return this.updateForm.get('repassword');
   }
 
   get userFromRegistrationForm() {
