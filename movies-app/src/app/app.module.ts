@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { MoviesModule } from './movies/movies.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     BrowserModule,
     AppRoutingModule,
     UsersModule,
+    MoviesModule,
     ReactiveFormsModule,
     HttpClientModule
   ],
