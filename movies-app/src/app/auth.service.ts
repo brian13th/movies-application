@@ -24,6 +24,10 @@ export class AuthService {
     }
   }
 
+  get username(){
+    return sessionStorage.getItem('username');
+  }
+
   createUser(user){
     return this.http.post<any>(this.urlUsers,user);
   }
