@@ -7,11 +7,19 @@ import { Movie } from './models/movie';
 })
 export class MoviesService {
 
-  urlAllMovies: string = 'http://localhost:4242/movies';
+  urlMovies: string = 'http://localhost:4242/movies';
 
   constructor(private http: HttpClient) { }
 
   getAllMovies(token: string){
-    return this.http.get<Movie>(this.urlAllMovies, {headers: {"token": `${token}` }});
+    return this.http.get<Movie>(this.urlMovies, {headers: {"token": `${token}`}});
+  }
+
+  createMovie(movie, token:string){
+    return this.http.post<any>(this.urlMovies,movie, {headers: {"token": `${token}`}});
+  }
+
+  deleteMovie(id: string,  token:string){
+    return this.http.delete<any>(this.urlMovies+ `/${id}`, {headers: {"token": `${token}`}});
   }
 }

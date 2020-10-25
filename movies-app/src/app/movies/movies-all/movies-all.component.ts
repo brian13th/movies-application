@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Movie } from 'src/app/models/movie';
 import { MoviesService } from '../../movies.service';
@@ -12,10 +13,54 @@ import { TokenService } from '../../token.service';
 export class MoviesAllComponent implements OnInit {
 
   allMovies$: Observable<Movie>;
+  checkIfAddMovie: boolean = false;
+
   constructor(private moviesService: MoviesService, private token: TokenService) { }
 
   ngOnInit(): void {
     this.allMovies$ = this.moviesService.getAllMovies(this.token.token);
+  }
+
+  addMovie(){
+    this.checkIfAddMovie = true;
+  }
+
+  submitData(){
+    this.moviesService.createMovie(this.movieToSend(this.addMovieForm.value), this.token.token).subscribe(
+      res=>console.log(res)
+    )
+    this.checkIfAddMovie = false;
+    location.reload()
+  }
+
+  deleteMovie(id: string){
+    this.moviesService.deleteMovie(id, this.token.token).subscribe(
+      res => console.log(res)
+    )
+    location.reload()
+  }
+
+  movieToSend(movie) {
+    return {
+      "title": movie.title,
+      "description": movie.description,
+      "dateReleased": movie.dateReleased,
+    }
+  }
+
+  addMovieForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    dateReleased: new FormControl('', [Validators.required]),
+  })
+  get title() {
+    return this.addMovieForm.get('title');
+  }
+  get description() {
+    return this.addMovieForm.get('description');
+  }
+  get dateReleased() {
+    return this.addMovieForm.get('dateReleased');
   }
 
 }
