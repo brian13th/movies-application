@@ -1,9 +1,12 @@
-<div class="list-group">
-  <div class="btn-toolbar" *ngFor="let movie of allMovies$ |async">
+<div class="list-group" *ngIf="allMovies$ | async; else loading">
+  <div class="btn-toolbar" *ngFor="let movie of allMovies$ | async">
     <li class="list-group-item list-group-item-action btn-toolbar">
-      <span class="mr-3">Dapibus ac facilisis in</span>
+      <span class="mr-3">{{movie.title}}</span>
       <button type="button" id="btnSubmit" class="btn btn-secondary btn-sm mr-2">Edit</button>
       <button type="button" id="btnCancel" class="btn btn-danger btn-sm mr-2">Delete</button>
     </li>
   </div>
 </div>
+<ng-template #loading>
+  Loading movies...
+</ng-template>

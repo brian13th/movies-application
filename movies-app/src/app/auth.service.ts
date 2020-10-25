@@ -16,14 +16,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  get isLoggedIn(){
-    if (sessionStorage.getItem('jwt')){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   get username(){
     return sessionStorage.getItem('username');
   }
