@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Movie } from 'src/app/models/movie';
 import { MoviesService } from '../../movies.service';
 import { TokenService } from '../../token.service';
@@ -14,15 +15,20 @@ export class MoviesAllComponent implements OnInit {
 
   allMovies$: Observable<Movie>;
   checkIfAddMovie: boolean = false;
+  searchTerm: string ='';
 
   constructor(private moviesService: MoviesService, private token: TokenService) { }
 
   ngOnInit(): void {
-    this.allMovies$ = this.moviesService.getAllMovies(this.token.token);
+    this.allMovies$ = this.moviesService.getAllMovies(this.token.token)
   }
 
-  addMovie(){
+  addMoviePanel(){
     this.checkIfAddMovie = true;
+  }
+
+  removeMoviePanel(){
+    this.checkIfAddMovie = false;
   }
 
   submitData(){
@@ -47,6 +53,11 @@ export class MoviesAllComponent implements OnInit {
       "dateReleased": movie.dateReleased,
     }
   }
+
+  inputForm = new FormGroup({
+    searchField: new FormControl('')
+  })
+
 
   addMovieForm = new FormGroup({
     title: new FormControl('', [Validators.required]),

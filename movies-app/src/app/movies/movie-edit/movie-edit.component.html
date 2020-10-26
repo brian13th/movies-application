@@ -1,1 +1,33 @@
-<p>movie-edit works!</p>
+<div class="form-group" style="margin: 10px;">
+  <h3>Edit movies</h3>
+  <form [formGroup]="editMovieForm"
+  *ngIf="currentMovie | async ; else loading">
+    <div class="form-group">
+      <label>Title</label>
+      <input formControlName="title" class="form-control" type="text">
+      <div *ngIf="title.invalid && (title.dirty || title.touched)">
+        <small class="text text-danger" *ngIf="title.errors.required">Title is mandatory</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input formControlName="description" class="form-control" type="text">
+      <div *ngIf="description.invalid && (description.dirty || description.touched)">
+        <small class="text text-danger" *ngIf="description.errors.required">Description is mandatory</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>DateReleased</label>
+      <input formControlName="dateReleased" class="form-control" type="text">
+      <div *ngIf="dateReleased.invalid && (dateReleased.dirty || dateReleased.touched)">
+        <small class="text text-danger" *ngIf="dateReleased.errors.required">Date released is mandatory</small>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit" [disabled]="!editMovieForm.valid"
+      (click)="submitData()">Update</button>
+      <a href="#" class="btn btn-primary ml-2" routerLink="/movies">Back</a>
+  </form>
+</div>
+<ng-template #loading>
+  Loading movie...
+</ng-template>

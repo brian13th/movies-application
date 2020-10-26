@@ -19,6 +19,14 @@ export class MoviesService {
     return this.http.post<any>(this.urlMovies,movie, {headers: {"token": `${token}`}});
   }
 
+  getMovie(id:string, token:string){
+    return this.http.get<any>(this.urlMovies + `/${id}`, {headers: {"token": `${token}`}});
+  }
+
+  editMovie(id:string, movie, token:string){
+    return this.http.put<any>(this.urlMovies + `/${id}`, movie, {headers: {"token": `${token}`}})
+  }
+
   deleteMovie(id: string,  token:string){
     return this.http.delete<any>(this.urlMovies+ `/${id}`, {headers: {"token": `${token}`}});
   }

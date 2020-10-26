@@ -27,8 +27,6 @@ export class ProfileComponent implements OnInit {
   }
 
   submitData() {
-    console.log('aplo update value', this.updateForm.value)
-    console.log('user to send', this.userToSend(this.updateForm.value))
     this.auth.putUser(this.userToSend(this.updateForm.value), this.token)
     .subscribe(
       (data) => {
