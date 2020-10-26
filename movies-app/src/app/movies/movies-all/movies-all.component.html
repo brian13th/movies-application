@@ -1,0 +1,69 @@
+<div class="form-group" style="margin: 10px;">
+  <form [formGroup]="inputForm">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Search</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+        placeholder="Insert movie title" formControlName="searchField">
+    </div>
+  </form>
+  <div class="list-group" *ngIf="allMovies$ | async; else loading">
+    <div class="btn-toolbar" *ngFor="let movie of allMovies$ | async">
+      <li class="list-group-item list-group-item-action btn-toolbar" [routerLink]="['/movies/details',movie.id]">
+        <span class="mr-3">{{movie.title}}</span>
+        <button type="button" id="btnCancel" class="btn btn-danger btn-sm mr-2 float-right"
+          (click)="deleteMovie(movie.id)">Delete</button>
+        <button type="button" id="btnSubmit" class="btn btn-secondary btn-sm mr-2 float-right"
+          [routerLink]="['/movies/edit', movie.id]">Edit</button>
+      </li>
+    </div>
+  </div>
+  <button type="button" id="btnSubmit" class="btn btn-success float-right mr-4" (click)="addMoviePanel()"
+    *ngIf="!checkIfAddMovie">
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd"
+        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+    </svg>
+  </button>
+
+  <button type="button" id="btnSubmit" class="btn btn-danger float-right mr-4" (click)="removeMoviePanel()"
+    *ngIf="checkIfAddMovie">
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-x-fill" fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd"
+        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6.854 6.146a.5.5 0 1 0-.708.708L7.293 8 6.146 9.146a.5.5 0 1 0 .708.708L8 8.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 8l1.147-1.146a.5.5 0 0 0-.708-.708L8 7.293 6.854 6.146z" />
+    </svg>
+  </button>
+
+  <div class="form-group" style="margin: 10px;">
+    <form [formGroup]="addMovieForm" *ngIf="checkIfAddMovie">
+      <div class="form-group">
+        <label>Title</label>
+        <input formControlName="title" class="form-control" type="text">
+        <div *ngIf="title.invalid && (title.dirty || title.touched)">
+          <small class="text text-danger" *ngIf="title.errors.required">Title is mandatory</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input formControlName="description" class="form-control" type="text">
+        <div *ngIf="description.invalid && (description.dirty || description.touched)">
+          <small class="text text-danger" *ngIf="description.errors.required">Description is mandatory</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>DateReleased</label>
+        <input formControlName="dateReleased" class="form-control" type="text">
+        <div *ngIf="dateReleased.invalid && (dateReleased.dirty || dateReleased.touched)">
+          <small class="text text-danger" *ngIf="dateReleased.errors.required">DateReleased is mandatory</small>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!addMovieForm.valid" (click)="submitData()">Add</button>
+    </form>
+  </div>
+  <ng-template #loading>
+    Loading movies...
+  </ng-template>
+</div>
