@@ -21,7 +21,8 @@ const routes: Routes = [
   {path:'movies', component:MoviesAllComponent, canActivate: [AuthGuard]},
   {path:'movies/edit/:id', component:MovieEditComponent, canActivate: [AuthGuard]},
   {path:'movies/details/:id', component:MovieDetailsComponent, canActivate: [AuthGuard]},
-  {path:'favorites', component:MoviesFavoriteComponent, canActivate: [AuthGuard]}
+  {path:'favorites', component:MoviesFavoriteComponent, canActivate: [AuthGuard]},
+  {path: '**', redirectTo: '', canActivate: [AuthGuard]},
 ]
 
 @NgModule({

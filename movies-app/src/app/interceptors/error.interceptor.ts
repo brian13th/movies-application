@@ -21,9 +21,9 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
   handleError(error: HttpErrorResponse){
     if (error.error instanceof ErrorEvent){
-      console.log(error.error.message);
+      console.log(error.error.message + 'apo errorEvent');
     } else {
-      console.log(error.status + ' ' + error.error);
+      console.log(error.status + ' ' + error.error + 'apo allo pragma');
     }
     return throwError('Something bad happend!..')
   }
