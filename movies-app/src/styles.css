@@ -3,6 +3,10 @@
   height: 50px;
 }
 
+.headerlogoUser {
+  height: 40px;
+}
+
 .nav-link{
   color: white!important;
 }
