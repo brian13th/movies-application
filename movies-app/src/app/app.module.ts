@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { MoviesModule } from './movies/movies.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   providers: [ {provide: HTTP_INTERCEPTORS,
     useClass: ErrorInterceptor,
-    multi: true}],
+    multi: true},
+    {provide: HTTP_INTERCEPTORS,
+      useClass: LoggingInterceptor,
+      multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
