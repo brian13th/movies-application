@@ -20,11 +20,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     );
   }
   handleError(error: HttpErrorResponse){
+    let errorMsg = '';
     if (error.error instanceof ErrorEvent){
-      console.log(error.error.message + 'apo errorEvent');
+      // console.log('this is client side error');
+      errorMsg = `Error: ${error.error.message}`;
     } else {
-      console.log(error.status + ' ' + error.error + 'apo allo pragma');
+      // console.log('this is server side error');
+      errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
     }
-    return throwError('Something bad happend!..')
+    // console.log(errorMsg);
+    return throwError(errorMsg);
   }
 }
