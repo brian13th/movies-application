@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { FavoriteService } from 'src/app/favorite.service';
 import { Movie } from 'src/app/models/movie';
 import { MoviesService } from '../../movies.service';
 import { TokenService } from '../../token.service';
@@ -15,9 +16,12 @@ export class MoviesAllComponent implements OnInit {
 
   allMovies$: Observable<Movie>;
   checkIfAddMovie: boolean = false;
+  checkHeartIcon: boolean = true;
   searchTerm: string ='';
 
-  constructor(private moviesService: MoviesService, private token: TokenService) { }
+  constructor(private moviesService: MoviesService,
+              private token: TokenService,
+              private fav: FavoriteService) { }
 
   ngOnInit(): void {
     this.allMovies$ = this.moviesService.getAllMovies(this.token.token)
@@ -52,6 +56,11 @@ export class MoviesAllComponent implements OnInit {
       "description": movie.description,
       "dateReleased": movie.dateReleased,
     }
+  }
+
+  postFavorite(id:string){
+    this.fav.postFav({"movieId": `${id}`}).subscribe(res=>{
+      console.log(res)})
   }
 
   inputForm = new FormGroup({

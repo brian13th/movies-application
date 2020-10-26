@@ -1,1 +1,21 @@
-<p>movies-favorite works!</p>
+<form [formGroup]="inputForm">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-default">Search</span>
+    </div>
+    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+      placeholder="Insert movie title" formControlName="searchField">
+  </div>
+</form>
+<div class="list-group" *ngIf="favMovies$ | async; else loading">
+  <div class="btn-toolbar" *ngFor="let movie of favMovies$ | async">
+    <li class="list-group-item list-group-item-action btn-toolbar">
+      <span class="mr-3"  [routerLink]="['/movies/details',movie.id]">{{movie.title}}</span>
+      <button type="button" id="btnCancel" class="btn btn-danger btn-sm mr-2 float-right"
+        (click)="removeMovie(movie.favoriteId)">Remove</button>
+    </li>
+  </div>
+</div>
+<ng-template #loading>
+  Loading movies...
+</ng-template>
