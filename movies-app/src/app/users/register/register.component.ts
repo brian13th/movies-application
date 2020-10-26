@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, FormBuilder, Form } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,14 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router, private fb: FormBuilder) { }
+
+  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  let pass = group.get('password').value;
+  let confirmPass = group.get('repassword').value;
+
+  return pass === confirmPass ? null : { notSame: true }
+}
 
   ngOnInit(): void {}
 
@@ -37,13 +45,13 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  registrationForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-    repassword: new FormControl('', [Validators.required]),
-  })
+  registrationForm = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    repassword: ['', Validators.required]
+  }, {validator: this.checkPasswords});
 
   get firstName() {
     return this.registrationForm.get('firstName');

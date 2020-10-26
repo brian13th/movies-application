@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AuthService } from '../../auth.service';
@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
   currentUser: Observable<User>;
   token: string;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.token = sessionStorage.getItem('jwt');
@@ -48,15 +48,23 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  updateForm = new FormGroup({
-    firstname: new FormControl('', [Validators.required]),
-    lastname: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-  })
+  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  let pass = group.get('password').value;
+  let confirmPass = group.get('repassword').value;
+
+  return pass === confirmPass ? null : { notSame: true }
+  }
+
+  updateForm = this.fb.group({
+    firstname: ['', Validators.required],
+    lastname: ['', Validators.required],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+    repassword: ['', Validators.required]
+  }, {validator: this.checkPasswords});
 
   get firstname() {
-    return this.updateForm ? this.updateForm.get('firstname') : null;
+    return this.updateForm.get('firstname');
   }
   get lastname() {
     return this.updateForm.get('lastname');
@@ -66,6 +74,10 @@ export class ProfileComponent implements OnInit {
   }
   get password() {
     return this.updateForm.get('password');
+  }
+
+  get repassword() {
+    return this.updateForm.get('repassword');
   }
 
   get userFromRegistrationForm() {
