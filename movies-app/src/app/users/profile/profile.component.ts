@@ -32,8 +32,8 @@ export class ProfileComponent implements OnInit {
       (data) => {
         if(localStorage.getItem('username')){
           localStorage.setItem('username', data['username'])
-        }
-        sessionStorage.setItem('username', data['username'])
+        } else if(sessionStorage.getItem('username')){
+        sessionStorage.setItem('username', data['username'])}
       });
   }
 
