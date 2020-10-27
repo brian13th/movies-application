@@ -20,11 +20,10 @@ export class LoginComponent implements OnInit {
     this.auth.loginUser(this.userToSend(this.signInForm.value)).subscribe(
       (res) => {
         if (res) {
+          console.log(this.checkBox.value['rememberMe']+ 'apo login page')
           if (this.checkBox.value['rememberMe']){
             localStorage.setItem('jwt', res.jwt);
             localStorage.setItem('username', res.user.username);
-            sessionStorage.setItem('jwt', res.jwt);
-            sessionStorage.setItem('username', res.user.username);
           } else {
             sessionStorage.setItem('jwt', res.jwt);
             sessionStorage.setItem('username', res.user.username);
