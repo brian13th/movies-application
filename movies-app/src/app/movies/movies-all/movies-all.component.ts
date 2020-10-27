@@ -1,11 +1,11 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith} from 'rxjs/operators';
-import { FavoriteService } from 'src/app/favorite.service';
+import { FavoriteService } from '../../services/favorite.service';
 import { Movie } from 'src/app/models/movie';
-import { MoviesService } from '../../movies.service';
-import { TokenService } from '../../token.service';
+import { MoviesService } from '../../services/movies.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-movies-all',

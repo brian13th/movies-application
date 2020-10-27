@@ -8,7 +8,7 @@
   </div>
 </form>
 <div class="list-group" *ngIf="favMovies$ | async; else loading">
-  <div class="btn-toolbar" *ngFor="let movie of favMovies$ | async">
+  <div class="btn-toolbar" *ngFor="let movie of favMovies$ | async; let i = index">
     <li class="list-group-item list-group-item-action btn-toolbar">
       <span class="mr-3"  [routerLink]="['/movies/details',movie.id]">{{movie.title}}</span>
       <button type="button" id="btnCancel" class="btn btn-danger btn-sm mr-2 float-right"
