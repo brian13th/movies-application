@@ -34,6 +34,7 @@ export class ProfileComponent implements OnInit {
           localStorage.setItem('username', data['username'])
         } else if(sessionStorage.getItem('username')){
         sessionStorage.setItem('username', data['username'])}
+        this.router.navigate([''])
       });
   }
 
