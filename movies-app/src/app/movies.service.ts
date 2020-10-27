@@ -11,8 +11,8 @@ export class MoviesService {
 
   constructor(private http: HttpClient) { }
 
-  getAllMovies(token: string){
-    return this.http.get<Movie>(this.urlMovies, {headers: {"token": `${token}`}});
+  getAllMovies(token: string, term?: string){
+    return this.http.get<Movie>(`${this.urlMovies}?title=${term}`, {headers: {"token": `${token}`}});
   }
 
   createMovie(movie, token:string){

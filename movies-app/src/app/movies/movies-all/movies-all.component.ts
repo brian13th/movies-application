@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, startWith, mergeMap, filter } from 'rxjs/operators';
 import { FavoriteService } from 'src/app/favorite.service';
 import { Movie } from 'src/app/models/movie';
 import { MoviesService } from '../../movies.service';
@@ -15,35 +15,41 @@ import { TokenService } from '../../token.service';
 export class MoviesAllComponent implements OnInit {
 
   allMovies$: Observable<Movie>;
+
   checkIfAddMovie: boolean = false;
   checkHeartIcon: boolean = true;
-  searchTerm: string ='';
+  searchTerm: string = '';
 
   constructor(private moviesService: MoviesService,
-              private token: TokenService,
-              private fav: FavoriteService) { }
+    private token: TokenService,
+    private fav: FavoriteService) { }
 
   ngOnInit(): void {
     this.allMovies$ = this.moviesService.getAllMovies(this.token.token)
+    this.searchField.valueChanges.pipe(startWith(''))
+    .subscribe(term =>
+      {
+        this.allMovies$ = this.moviesService.getAllMovies(this.token.token, term);
+      })
   }
 
-  addMoviePanel(){
+  addMoviePanel() {
     this.checkIfAddMovie = true;
   }
 
-  removeMoviePanel(){
+  removeMoviePanel() {
     this.checkIfAddMovie = false;
   }
 
-  submitData(){
+  submitData() {
     this.moviesService.createMovie(this.movieToSend(this.addMovieForm.value), this.token.token).subscribe(
-      res=>console.log(res)
+      res => console.log(res)
     )
     this.checkIfAddMovie = false;
     location.reload()
   }
 
-  deleteMovie(id: string){
+  deleteMovie(id: string) {
     this.moviesService.deleteMovie(id, this.token.token).subscribe(
       res => console.log(res)
     )
@@ -58,9 +64,10 @@ export class MoviesAllComponent implements OnInit {
     }
   }
 
-  postFavorite(id:string){
-    this.fav.postFav({"movieId": `${id}`}).subscribe(res=>{
-      console.log(res)})
+  postFavorite(id: string) {
+    this.fav.postFav({ "movieId": `${id}` }).subscribe(res => {
+      console.log(res)
+    })
   }
 
   inputForm = new FormGroup({
@@ -81,6 +88,10 @@ export class MoviesAllComponent implements OnInit {
   }
   get dateReleased() {
     return this.addMovieForm.get('dateReleased');
+  }
+
+  get searchField(){
+    return this.inputForm.get('searchField');
   }
 
 }
