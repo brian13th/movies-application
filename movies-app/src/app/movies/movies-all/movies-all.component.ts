@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, Observable } from 'rxjs';
-import { map, startWith, mergeMap, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { startWith} from 'rxjs/operators';
 import { FavoriteService } from 'src/app/favorite.service';
 import { Movie } from 'src/app/models/movie';
 import { MoviesService } from '../../movies.service';
@@ -15,10 +15,9 @@ import { TokenService } from '../../token.service';
 export class MoviesAllComponent implements OnInit {
 
   allMovies$: Observable<Movie>;
-
   checkIfAddMovie: boolean = false;
-  checkHeartIcon: boolean = true;
-  searchTerm: string = '';
+  favMovies: any;
+  favorite = [];
 
   constructor(private moviesService: MoviesService,
     private token: TokenService,
@@ -27,10 +26,24 @@ export class MoviesAllComponent implements OnInit {
   ngOnInit(): void {
     this.allMovies$ = this.moviesService.getAllMovies(this.token.token)
     this.searchField.valueChanges.pipe(startWith(''))
-    .subscribe(term =>
-      {
+      .subscribe(term => {
         this.allMovies$ = this.moviesService.getAllMovies(this.token.token, term);
       })
+    this.fav.getFav('').subscribe(res => {
+      this.favMovies = [res]; console.log(this.favMovies[0].forEach((element) => {
+        this.favorite.push(element.title)
+      }))
+      console.log(this.favorite)
+    });
+
+  }
+
+  checkHeartRed(title) {
+    return this.favorite.includes(title);
+  }
+
+  checkHeartWhite(title) {
+    return this.favorite.includes(title);
   }
 
   addMoviePanel() {
@@ -64,11 +77,21 @@ export class MoviesAllComponent implements OnInit {
     }
   }
 
-  postFavorite(id: string) {
+  postFavorite(id: string, i) {
     this.fav.postFav({ "movieId": `${id}` }).subscribe(res => {
-      console.log(res)
-    })
+      console.log(res);
+
+
+    });
+
+    var elEmpty = document.getElementsByClassName('grab-empty')[i];
+    var elfull = document.getElementsByClassName('grab-full')[i];
+    elEmpty.classList.add('d-none')
+    elfull.classList.remove('d-none')
+    console.log(i)
   }
+
+
 
   inputForm = new FormGroup({
     searchField: new FormControl('')
@@ -90,7 +113,7 @@ export class MoviesAllComponent implements OnInit {
     return this.addMovieForm.get('dateReleased');
   }
 
-  get searchField(){
+  get searchField() {
     return this.inputForm.get('searchField');
   }
 
