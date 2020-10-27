@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
           if (this.checkBox.value['rememberMe']){
             localStorage.setItem('jwt', res.jwt);
             localStorage.setItem('username', res.user.username);
-            sessionStorage.setItem('jwt', res.jwt);
-            sessionStorage.setItem('username', res.user.username);
           } else {
             sessionStorage.setItem('jwt', res.jwt);
             sessionStorage.setItem('username', res.user.username);

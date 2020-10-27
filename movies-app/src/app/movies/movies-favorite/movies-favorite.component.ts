@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { FavoriteService } from 'src/app/favorite.service';
-import { Movie } from 'src/app/models/movie';
+import { startWith } from 'rxjs/operators';
+import { FavoriteService } from '../../services/favorite.service';
+import { Movie } from '../../models/movie';
 
 @Component({
   selector: 'app-movies-favorite',
@@ -12,13 +13,18 @@ import { Movie } from 'src/app/models/movie';
 export class MoviesFavoriteComponent implements OnInit {
 
   favMovies$: Observable<Movie>;
+  favMovie = [];
   constructor(private fav: FavoriteService) { }
 
   ngOnInit(): void {
     this.favMovies$ = this.fav.getFav()
+    this.searchField.valueChanges.pipe(startWith(''))
+      .subscribe(term => {
+        this.favMovies$ = this.fav.getFav(term);
+      })
   }
-  removeMovie(id: string){
-    this.fav.removeFav(id).subscribe(res=>{
+  removeMovie(id: string) {
+    this.fav.removeFav(id).subscribe(res => {
       location.reload();
     });
   }
@@ -26,4 +32,8 @@ export class MoviesFavoriteComponent implements OnInit {
   inputForm = new FormGroup({
     searchField: new FormControl('')
   })
+
+  get searchField() {
+    return this.inputForm.get('searchField');
+  }
 }

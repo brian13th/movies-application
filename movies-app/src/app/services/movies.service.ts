@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Movie } from './models/movie';
+import { Movie } from '../models/movie';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class MoviesService {
 
   constructor(private http: HttpClient) { }
 
-  getAllMovies(token: string){
-    return this.http.get<Movie>(this.urlMovies, {headers: {"token": `${token}`}});
+  getAllMovies(token: string, term?: string){
+    return this.http.get<Movie>(`${this.urlMovies}?title=${term}`, {headers: {"token": `${token}`}});
   }
 
   createMovie(movie, token:string){

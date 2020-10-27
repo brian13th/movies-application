@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
@@ -19,21 +19,22 @@ export class ProfileComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.token = sessionStorage.getItem('jwt');
-    this.currentUser = this.auth.getUser(this.token).pipe(
+    // this.token = sessionStorage.getItem('jwt');
+    this.currentUser = this.auth.getUser().pipe(
       tap((userResponce)=> {
         this.updateForm.patchValue(userResponce)})
     )
   }
 
   submitData() {
-    this.auth.putUser(this.userToSend(this.updateForm.value), this.token)
+    this.auth.putUser(this.userToSend(this.updateForm.value))
     .subscribe(
       (data) => {
         if(localStorage.getItem('username')){
           localStorage.setItem('username', data['username'])
-        }
-        sessionStorage.setItem('username', data['username'])
+        } else if(sessionStorage.getItem('username')){
+        sessionStorage.setItem('username', data['username'])}
+        this.router.navigate([''])
       });
   }
 

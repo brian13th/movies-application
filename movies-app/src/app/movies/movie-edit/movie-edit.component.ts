@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
-import { Movie } from 'src/app/models/movie';
-import { TokenService } from 'src/app/token.service';
-import { MoviesService } from '../../movies.service';
+import { TokenService } from '../../services/token.service';
+import { MoviesService } from '../../services/movies.service';
 
 @Component({
   selector: 'app-movie-edit',

@@ -11,8 +11,8 @@ export class FavoriteService {
   constructor(private http: HttpClient,
               private token: TokenService) { }
 
-  getFav(){
-    return this.http.get<any>(this.urlFavs, {headers: {"token": this.token.token}})
+  getFav(term?: string){
+    return this.http.get<any>(`${this.urlFavs}?title=${term}`, {headers: {"token": this.token.token}})
   }
 
   postFav(movieId){
