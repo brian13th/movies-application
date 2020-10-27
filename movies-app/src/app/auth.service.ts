@@ -18,7 +18,11 @@ export class AuthService {
   constructor(private http: HttpClient, private token:TokenService) { }
 
   get username(){
-    return sessionStorage.getItem('username');
+    if(sessionStorage.getItem('username')){
+      return sessionStorage.getItem('username');
+    } else if(localStorage.getItem('username')){
+      return localStorage.getItem('username')
+    }
   }
 
   createUser(user){
