@@ -19,15 +19,15 @@ export class ProfileComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.token = sessionStorage.getItem('jwt');
-    this.currentUser = this.auth.getUser(this.token).pipe(
+    // this.token = sessionStorage.getItem('jwt');
+    this.currentUser = this.auth.getUser().pipe(
       tap((userResponce)=> {
         this.updateForm.patchValue(userResponce)})
     )
   }
 
   submitData() {
-    this.auth.putUser(this.userToSend(this.updateForm.value), this.token)
+    this.auth.putUser(this.userToSend(this.updateForm.value))
     .subscribe(
       (data) => {
         if(localStorage.getItem('username')){
